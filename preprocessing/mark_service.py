@@ -1,5 +1,5 @@
 import re
-
+import csv
 
 def remove_char(text: str) -> str:
     text = re.sub(r"http\S+", "", text)
@@ -13,6 +13,15 @@ def parse_phone_number(text):
     """Extract phone numbers from text using regex and return as a list."""
     phone_regex = r"\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}"
     return re.findall(phone_regex, text)
+
+def parse_skills(text):
+    """Extract user skills from text and return as a list."""
+    with open('data/skills.csv', 'r') as f:
+        reader = csv.reader(f)
+        skill_list = [row[1] for row in reader]
+
+    skill_regex = r"\b(" + "|".join(skill_list) + r")\b"
+    return re.findall(skill_regex, text)
 
 
 def parse_email(text):
